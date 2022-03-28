@@ -4,9 +4,19 @@ import argparse  # we use this module for option parsing. See main for details.
 
 import sys
 from bed import (
-    parse_line, print_line
+    read_bed_file, print_line, BedLine
 )
-from query import Table
+
+
+def extract_region(features: list[BedLine],
+                   start: int, end: int) -> list[BedLine]:
+    """Extract region chrom[start:end] and write it to outfile."""
+    region = []
+    for feature in features:
+        # FIXME binary search
+        if start <= feature.chrom_start < end:
+            region.append(feature)
+    return region
 
 
 def main() -> None:
@@ -27,7 +37,16 @@ def main() -> None:
     args = argparser.parse_args()
 
     # With all the options handled, we just need to do the real work
-    # FIXME: put your code here
+    features = read_bed_file(args.bed)
+    for query in args.query:
+        chrom, start, end = query.split()
+        # Extract the region from the chromosome, using your extract_region()
+        # function. If you did your job well, this should give us the features
+        # that we want.
+        region = extract_region(
+            features.get_chrom(chrom), int(start), int(end))
+        for line in region:
+            print_line(line, args.outfile)
 
 
 if __name__ == '__main__':

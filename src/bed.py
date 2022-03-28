@@ -1,5 +1,7 @@
 """Module for working with lines of BED data."""
 
+from collections import defaultdict
+from typing import ItemsView
 from typing import (
     NamedTuple, TextIO
 )
@@ -36,3 +38,37 @@ def print_line(line: BedLine, f: TextIO) -> None:
     """Prints line to the stream f as a BED line."""
     print(line.chrom, line.chrom_start,
           line.chrom_end, line.name, file=f, sep='\t')
+
+
+class Table:
+    """Table containing bed-lines."""
+
+    tbl: dict[str, list[BedLine]]
+
+    def __init__(self) -> None:
+        """Create a new table."""
+        self.tbl = defaultdict(lambda: [])
+
+    def add_line(self, line: BedLine) -> None:
+        """Add line to the table."""
+        self.tbl[line.chrom].append(line)
+
+    def get_chrom(self, chrom: str) -> list[BedLine]:
+        """Get all the lines that sits on chrom."""
+        return self.tbl[chrom]
+
+    def items(self) -> ItemsView[str, list[BedLine]]:
+        """Get keys and values in the table."""
+        return self.tbl.items()
+
+    def __setitem__(self, chrom: str, features: list[BedLine]) -> None:
+        """Update features for a chromosome."""
+        self.tbl[chrom] = features
+
+
+def read_bed_file(f: TextIO) -> Table:
+    """Read a BED file into a query.Table and return it."""
+    table = Table()
+    for line in f:
+        table.add_line(parse_line(line))
+    return table

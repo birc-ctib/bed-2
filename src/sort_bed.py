@@ -5,17 +5,8 @@ import argparse  # we use this module for option parsing. See main for details.
 import sys
 from typing import TextIO
 from bed import (
-    parse_line, print_line
+    read_bed_file, print_line, Table
 )
-from query import Table
-
-
-def read_bed_file(f: TextIO) -> Table:
-    """Read a BED file into a query.Table and return it."""
-    table = Table()
-    for line in f:
-        table.add_line(parse_line(line))
-    return table
 
 
 def sort_file(table: Table) -> None:
