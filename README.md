@@ -14,7 +14,7 @@ that almost sorts a BED file. I is just lacking the sorting part. The function r
 
 ## Merging sorted BED files
 
-
+If you have two sorted BED files and you want a single sorted BED file with the features from them, it is more efficient to merge them than to concatenate them and then sort them. **FIXME**
 
 ## Querying BED files with binary search
 
@@ -26,3 +26,6 @@ that almost sorts a BED file. I is just lacking the sorting part. The function r
 
 
 *Would anything be more difficult if the features covered ranges instead of single nucleotides (like real BED files)? What could go wrong, if anything?*
+
+*We wrote a tool for merging two BED files, but what if we had a bunch of them? What would the complexity be if we merged them in, one at a time? What would the complexity be if we merged all of the files at the same time?*
+
