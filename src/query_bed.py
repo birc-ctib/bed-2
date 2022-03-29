@@ -25,7 +25,7 @@ def extract_region(features: list[BedLine],
     """Extract region chrom[start:end] and write it to outfile."""
     region = []
     i = lower_bound(features, start)
-    while features[i].chrom_start < end:
+    while i < len(features) and features[i].chrom_start < end:
         region.append(features[i])
         i += 1
     return region
