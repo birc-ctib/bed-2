@@ -38,9 +38,9 @@ This `pos_i` is the smallest position greater or equal to `start`. This kind of 
 
 Lower and upper bounds are useful when you need to not only determine whether a value is in a set, but also identify where it is or with which associated features. You can compute both with binary search, so you can think of them as slightly more powerful generalisations of binary search.
 
-We don't really need the upper bound in this project, but in the file `src/bounds.py` I have put some code you can use to experiment with computing lower and upper bounds, and in `src/test_bounds.py` there are a few tests. You can use this to figure out how to adapt a binary search to a lower bound search, and once you have that, you can write code to find `pos_i` in a BED file using lower bound.
+We don't necessarily need the upper bound in this project, but in the file `src/bounds.py` I have put some code you can use to experiment with computing lower and upper bounds, and in `src/test_bounds.py` there are a few tests. You can use this to figure out how to adapt a binary search to a lower bound search, and once you have that, you can write code to find `pos_i` in a BED file using lower bound.
 
-From `pos_i` we can scan forward, emitting every feature we see, until we reach a `pos_j >= end`. At that point we have left the region, and we can stop emitting.
+From `pos_i` we can scan forward, emitting every feature we see, until we reach a `pos_j >= end`. At that point we have left the region, and we can stop emitting. This isn't the only way to identify the region of features to emit, but it is a simple one, and it is as efficient as we can hope to make it (since we spend time O(z) to emit z features). You can also use an upper bound to figure out where to stop emitting (but it is not the upper bound of `start`).
 
 In the previous project, where the features weren't sorted, we would have to scan through the entire chromosome to get all the positions that fell within a desired region. If they are sorted, however, we can obviously stop emitting as soon as we reach a position that falls later than (or equal to) `end`, so we only need O(z) time to emit z features in a region.
 

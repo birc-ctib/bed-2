@@ -23,12 +23,9 @@ def lower_bound(features: list[BedLine], start: int) -> int:
 def extract_region(features: list[BedLine],
                    start: int, end: int) -> list[BedLine]:
     """Extract region chrom[start:end] and write it to outfile."""
-    region = []
-    i = lower_bound(features, start)
-    while i < len(features) and features[i].chrom_start < end:
-        region.append(features[i])
-        i += 1
-    return region
+    lb = lower_bound(features, start)
+    ub = lower_bound(features, end+1)  # upper bound of end
+    return features[lb:ub]
 
 
 def main() -> None:
