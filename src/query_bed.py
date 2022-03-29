@@ -8,14 +8,26 @@ from bed import (
 )
 
 
+def lower_bound(features: list[BedLine], start: int) -> int:
+    """Return the index of the lower bound of start in features."""
+    lo, hi = 0, len(features)
+    while lo < hi:
+        m = (lo + hi) // 2
+        if features[m].chrom_start < start:
+            lo = m + 1
+        else:
+            hi = m
+    return lo
+
+
 def extract_region(features: list[BedLine],
                    start: int, end: int) -> list[BedLine]:
     """Extract region chrom[start:end] and write it to outfile."""
     region = []
-    for feature in features:
-        # FIXME binary search
-        if start <= feature.chrom_start < end:
-            region.append(feature)
+    i = lower_bound(features, start)
+    while features[i].chrom_start < end:
+        region.append(features[i])
+        i += 1
     return region
 
 
