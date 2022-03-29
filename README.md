@@ -2,6 +2,10 @@
 
 If our BED files are sorted, we should be able to extract regions in logarithmic time instead of linear time, if we use binary search instead of linear search.
 
+We won't *quite* get there in this project, because it will take us linear time to load a BED file into memory, but once there we will be able to do such queries. Doing it from file is possible, but involves some technical issues that we don't care to look at here. If you were to look a little deeper into files, and how to make random access queries in files, we could get the rest of the way.
+
+If you are interested in a fully fledged tool that does what we are attempting here, you can check out [Tabix](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3042176/).
+
 ## Sorting BED files
 
 In the file `src/sort_bed.py` there is a function
