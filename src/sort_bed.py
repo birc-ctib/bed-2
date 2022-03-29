@@ -16,7 +16,6 @@ def sort_file(table: Table) -> None:
         # You need to sort `features` with respect to chrom_start
         # and then updatte the table
         # FIXME: sort `features`
-        features.sort()
         table[chrom] = features  # features should be sorted here
 
 
