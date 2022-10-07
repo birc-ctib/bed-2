@@ -28,63 +28,17 @@ jobs:
 
       - name: Checking with pytest
         run: |
-          if src/test_*.py 2> /dev/null; then python3 -m pytest src; fi
-          if src/*_test.py 2> /dev/null; then python3 -m pytest src; fi
-        shell: bash
-
-      - name: Checking sort_bed (input)
-        run: |
-          if ! cmp <(python3 src/sort_bed.py data/input.bed) data/input-sorted.bed; then
-            echo "Incorrect output for python3 src/sort_bed.py data/input.bed"
-            
-            echo python3 src/sort_bed.py data/input.bed
-            python3 src/sort_bed.py data/input.bed
-            
-            echo cat data/input-sorted.bed
-            cat data/input-sorted.bed
-
-            echo diff
-            diff <(python3 src/sort_bed.py data/input.bed) data/input-sorted.bed
+          if src/test_*.py src/*_test.py 2> /dev/null; then
+            python3 -m pytest src;
           fi
         shell: bash
 
-      - name: Checking sort_bed (large)
-        run: |
-          if ! cmp <(python3 src/sort_bed.py data/large.bed) data/large-sorted.bed; then
-            echo "Incorrect output for python3 src/sort_bed.py data/large.bed"
-            diff <(python3 src/sort_bed.py data/large.bed) data/large-sorted.bed
-          fi
-        shell: bash
+      - name: Check if there are project-specific tests
+        id: proj_files
+        uses: andstor/file-existence-action@v1
+        with:
+          files: ./.github/actions/project-test/action.yml
 
-      - name: Checking merge_bed (input input)
-        run: |
-          if ! cmp <(python3 src/merge_bed.py data/input-sorted.bed data/input-sorted.bed) data/input-merged.bed; then
-            echo "Incorrect output for python3 src/merge_bed.py data/input-sorted.bed data/input-sorted.bed"
-            diff <(python3 src/merge_bed.py data/input-sorted.bed data/input-sorted.bed) data/input-merged.bed
-          fi
-        shell: bash
-
-
-      - name: Checking query_bed (query-1)
-        run: |
-          if ! cmp <(python3 src/query_bed.py data/large-sorted.bed data/query-1.txt) data/expected-1.txt; then
-            echo "Incorrect output for python3 src/query_bed.py data/large-sorted.bed data/query-1.txt"
-            diff <(python3 src/query_bed.py data/large-sorted.bed data/query-1.txt) data/expected-1.txt
-          fi
-        shell: bash
-
-      - name: Checking query_bed (query-2)
-        run: |
-          if ! cmp <(python3 src/query_bed.py data/large-sorted.bed data/query-2.txt) data/expected-2.txt; then
-            echo "Incorrect output for python3 src/query_bed.py data/large-sorted.bed data/query-2.txt"
-            diff <(python3 src/query_bed.py data/large-sorted.bed data/query-2.txt) data/expected-2.txt
-          fi
-        shell: bash
-
-      - name: Checking query_bed (query-3)
-        run: |
-          if ! cmp <(python3 src/query_bed.py data/large-sorted.bed data/query-3.txt) data/expected-3.txt; then
-            echo "Incorrect output for python3 src/query_bed.py data/large-sorted.bed data/query-3.txt"
-            diff <(python3 src/query_bed.py data/large-sorted.bed data/query-3.txt) data/expected-3.txt
-          fi
-        shell: bash
+      - name: Project testing
+        if: steps.proj_files.outputs.files_exists == 'true'
+        uses: ./.github/actions/project-test
