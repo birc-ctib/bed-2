@@ -22,7 +22,7 @@
         },
         {
             "name": "python3 src/merge_bed.py data/input-sorted.bed data/input-sorted.bed",
-            "setup": "python3 src/merge_bed.py data/input-sorted.bed data/input-sorted.bed > input-merged.bed > large-sorted.bed",
+            "setup": "python3 src/merge_bed.py data/input-sorted.bed data/input-sorted.bed > input-merged.bed",
             "run": "./.test/scripts/cmp.sh input-merged.bed data/input-merged.bed",
             "input": "",
             "output": "",
