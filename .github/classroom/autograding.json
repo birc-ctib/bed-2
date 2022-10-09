@@ -39,6 +39,26 @@
             "comparison": "exact",
             "timeout": 10,
             "points": 1
+        },
+        {
+            "name": "python3 src/query_bed.py data/large-sorted.bed data/query-2.txt",
+            "setup": "python3 src/query_bed.py data/large-sorted.bed data/query-2.txt > observed-2.txt",
+            "run": "./.test/scripts/cmp.sh observed-2.txt data/expected-2.txt",
+            "input": "",
+            "output": "",
+            "comparison": "exact",
+            "timeout": 10,
+            "points": 1
+        },
+        {
+            "name": "python3 src/query_bed.py data/large-sorted.bed data/query-3.txt",
+            "setup": "python3 src/query_bed.py data/large-sorted.bed data/query-3.txt > observed-3.txt",
+            "run": "./.test/scripts/cmp.sh observed-3.txt data/expected-3.txt",
+            "input": "",
+            "output": "",
+            "comparison": "exact",
+            "timeout": 10,
+            "points": 1
         }
     ]
 }
