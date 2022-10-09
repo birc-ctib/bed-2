@@ -1,0 +1,14 @@
+{
+    "tests": [
+        {
+            "name": "Checking sort_bed (input)",
+            "setup": "python3 src/sort_bed.py data/input.bed > input-sorted.bed",
+            "run": "./.test/scripts/cmp.sh input-sorted.bed data/input-sorted.bed",
+            "input": "",
+            "output": "",
+            "comparison": "exact",
+            "timeout": 10,
+            "points": 1
+        }
+    ]
+}
