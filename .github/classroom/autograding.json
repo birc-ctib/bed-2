@@ -29,6 +29,16 @@
             "comparison": "exact",
             "timeout": 10,
             "points": 1
+        },
+        {
+            "name": "python3 src/query_bed.py data/large-sorted.bed data/query-1.txt",
+            "setup": "python3 src/query_bed.py data/large-sorted.bed data/query-1.txt > observed-1.txt",
+            "run": "./.test/scripts/cmp.sh observed-1.txt data/expected-1.txt",
+            "input": "",
+            "output": "",
+            "comparison": "exact",
+            "timeout": 10,
+            "points": 1
         }
     ]
 }
